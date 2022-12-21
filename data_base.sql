@@ -38,6 +38,7 @@ CREATE TABLE Dates
     check_in    DATE NOT NULL,
     checkout    DATE NOT NULL,
     time_zone   VARCHAR2(30) NOT NULL,
+    CHECK (check_in < checkout),
     CONSTRAINT Dates_PK PRIMARY KEY (date_id),
     FOREIGN KEY (date_id) REFERENCES Guests(date_id)
 );
@@ -82,6 +83,7 @@ CREATE TABLE Countries
     language    VARCHAR2(30) NOT NULL,
     continent   VARCHAR2(30) NOT NULL,
     s_continent VARCHAR2(30) NOT NULL,
+    CHECK ( LENGTH(name) > LENGTH(s_name) ),
     CONSTRAINT Countries_PK PRIMARY KEY (country_id),
     FOREIGN KEY (country_id) REFERENCES Locations(country_id)
 );
@@ -91,7 +93,7 @@ CREATE TABLE Managers
     manager_id      NUMBER,
     first_name      VARCHAR2(30) NOT NULL,
     last_name       VARCHAR2(30) NOT NULL,
-    manager_id_num  NUMBER NOT NULL UNIQUE,
+    manager_id_num  NUMBER NOT NULL UNIQUE CHECK ( manager_id_num > 0 ),
     nationalization VARCHAR2(30) DEFAULT NULL,
     CONSTRAINT Managers_PK PRIMARY KEY (manager_id),
     FOREIGN KEY (manager_id) REFERENCES Hotels(manager_id)
@@ -102,7 +104,7 @@ CREATE TABLE Rooms
     room_id     NUMBER,
     floor       NUMBER NOT NULL,
     standard    VARCHAR2(30) DEFAULT NULL,
-    size        NUMBER NOT NULL,
+    size        NUMBER NOT NULL CHECK ( size > 0 ),
     type        VARCHAR2(30),
     CONSTRAINT Rooms_PK PRIMARY KEY (room_id),
     FOREIGN KEY (room_id) REFERENCES Hotels(room_id)
