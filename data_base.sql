@@ -75,8 +75,8 @@ CREATE TABLE Hotels
 (
     hotel_id        NUMBER,
     hotel_name      VARCHAR2(40) NOT NULL,
-    manager_id      NUMBER       NOT NULL UNIQUE,
-    location_id     NUMBER       NOT NULL UNIQUE,
+    manager_id      NUMBER       NOT NULL,
+    location_id     NUMBER       NOT NULL,
     room_id         NUMBER       NOT NULL UNIQUE,
     number_of_stars NUMBER       NOT NULL,
     CONSTRAINT Hotels_PK PRIMARY KEY (hotel_id),
@@ -84,13 +84,13 @@ CREATE TABLE Hotels
 );
 
 INSERT INTO Hotels
-VALUES (21, 'Radisson Blu Daugava', 11, 101, 201, 4),
-       (22, 'Hilton on Park Lane', 12, 102, 202, 5),
-       (23, 'Cavalier Hotel Prague', 13, 203, 203, 3),
-       (24, 'Grand Hyatt Kuwait', 14, 104, 204, 5),
-       (25, 'InterContinental Los Angeles', 15, 105, 205, 4),
-       (26, 'ibis Bogota Museo', 16, 106, 206, 3),
-       (27, 'Radisson Blu Park Hotel', 17, 107, 207, 4);
+VALUES (21, 'Radisson Blu Daugava', 11, 41, 201, 4),
+       (22, 'Hilton on Park Lane', 12, 42, 202, 5),
+       (23, 'Cavalier Hotel Prague', 13, 43, 203, 3),
+       (24, 'Grand Hyatt Kuwait', 14, 104, 44, 5),
+       (25, 'InterContinental Los Angeles', 12, 105, 205, 4),
+       (26, 'ibis Bogota Museo', 16, 106, 46, 3),
+       (27, 'Radisson Blu Park Hotel', 17, 47, 207, 4);
 
 CREATE TABLE Hotels_Locations
 (
