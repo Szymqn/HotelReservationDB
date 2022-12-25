@@ -87,9 +87,9 @@ INSERT INTO Hotels
 VALUES (21, 'Radisson Blu Daugava', 11, 41, 201, 4),
        (22, 'Hilton on Park Lane', 12, 42, 202, 5),
        (23, 'Cavalier Hotel Prague', 13, 43, 203, 3),
-       (24, 'Grand Hyatt Kuwait', 14, 104, 44, 5),
-       (25, 'InterContinental Los Angeles', 12, 105, 205, 4),
-       (26, 'ibis Bogota Museo', 16, 106, 46, 3),
+       (24, 'Grand Hyatt Kuwait', 14, 44, 204, 5),
+       (25, 'InterContinental Los Angeles', 12, 45, 205, 4),
+       (26, 'ibis Bogota Museo', 16, 46, 206, 3),
        (27, 'Radisson Blu Park Hotel', 17, 47, 207, 4);
 
 CREATE TABLE Hotels_Locations
