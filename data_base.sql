@@ -78,7 +78,7 @@ CREATE TABLE Hotels
     manager_id      NUMBER       NOT NULL,
     location_id     NUMBER       NOT NULL,
     room_id         NUMBER       NOT NULL UNIQUE,
-    number_of_stars NUMBER       NOT NULL,
+    number_of_stars NUMBER       NOT NULL CHECK ( number_of_stars > 0 ),
     CONSTRAINT Hotels_PK PRIMARY KEY (hotel_id),
     FOREIGN KEY (hotel_id) REFERENCES Reservations (hotel_id)
 );
