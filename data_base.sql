@@ -39,7 +39,7 @@ CREATE TABLE Guests
     last_name   VARCHAR2(30) NOT NULL,
     email       VARCHAR2(30) NOT NULL UNIQUE,
     CONSTRAINT Guests_PK PRIMARY KEY (guest_id),
-    FOREIGN KEY (guest_id) REFERENCES Reservations (guest_id)
+    CONSTRAINT Guests_FK1 FOREIGN KEY (guest_id) REFERENCES Reservations (guest_id)
 );
 
 INSERT INTO Guests
@@ -59,7 +59,7 @@ CREATE TABLE Dates
     time_zone VARCHAR2(30) NOT NULL,
     CHECK (check_in < checkout),
     CONSTRAINT Dates_PK PRIMARY KEY (date_id),
-    FOREIGN KEY (date_id) REFERENCES Guests (date_id)
+    CONSTRAINT Dates_FK1 FOREIGN KEY (date_id) REFERENCES Guests (date_id)
 );
 
 INSERT INTO Dates
@@ -80,7 +80,7 @@ CREATE TABLE Hotels
     room_id         NUMBER       NOT NULL UNIQUE,
     number_of_stars NUMBER       NOT NULL CHECK ( number_of_stars > 0 ),
     CONSTRAINT Hotels_PK PRIMARY KEY (hotel_id),
-    FOREIGN KEY (hotel_id) REFERENCES Reservations (hotel_id)
+    CONSTRAINT Hotels_FK1 FOREIGN KEY (hotel_id) REFERENCES Reservations (hotel_id)
 );
 
 INSERT INTO Hotels
@@ -98,8 +98,8 @@ CREATE TABLE Hotels_Locations
     hotel_id    NUMBER NOT NULL UNIQUE,
     location_id NUMBER NOT NULL UNIQUE,
     CONSTRAINT Hotels_Locations_PK PRIMARY KEY (id),
-    FOREIGN KEY (hotel_id) REFERENCES Hotels (hotel_id) ON DELETE CASCADE,
-    FOREIGN KEY (location_id) REFERENCES Locations (location_id) ON DELETE CASCADE
+    CONSTRAINT Hotels_Locations_FK1 FOREIGN KEY (hotel_id) REFERENCES Hotels (hotel_id) ON DELETE CASCADE,
+    CONSTRAINT Hotels_Locations_FK2 FOREIGN KEY (location_id) REFERENCES Locations (location_id) ON DELETE CASCADE
 );
 
 INSERT INTO Hotels_Locations
@@ -140,7 +140,7 @@ CREATE TABLE Countries
     dial_code  VARCHAR2(15) NOT NULL,
     CHECK ( LENGTH(name) > LENGTH(s_name) ),
     CONSTRAINT Countries_PK PRIMARY KEY (country_id),
-    FOREIGN KEY (country_id) REFERENCES Locations (country_id)
+    CONSTRAINT Countries_FK1 FOREIGN KEY (country_id) REFERENCES Locations (country_id)
 );
 
 INSERT INTO Countries
@@ -160,7 +160,7 @@ CREATE TABLE Managers
     phone_num     NUMBER       NOT NULL CHECK ( phone_num > 0 ),
     date_of_birth DATE         NOT NULL,
     CONSTRAINT Managers_PK PRIMARY KEY (manager_id),
-    FOREIGN KEY (manager_id) REFERENCES Hotels (manager_id)
+    CONSTRAINT Managers_FK1 FOREIGN KEY (manager_id) REFERENCES Hotels (manager_id)
 );
 
 INSERT INTO Managers
@@ -180,7 +180,7 @@ CREATE TABLE Rooms
     size     NUMBER NOT NULL CHECK ( size > 0 ),
     price    NUMBER NOT NULL CHECK ( price > 0 ),
     CONSTRAINT Rooms_PK PRIMARY KEY (room_id),
-    FOREIGN KEY (room_id) REFERENCES Hotels (room_id)
+    CONSTRAINT Rooms_FK1 FOREIGN KEY (room_id) REFERENCES Hotels (room_id)
 );
 
 INSERT INTO Rooms
