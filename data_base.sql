@@ -3,7 +3,7 @@ DROP TABLE Reservations;
 DROP TABLE Guests;
 DROP TABLE Dates;
 DROP TABLE Hotels;
-DROP TABLE Managers;
+DROP TABLE Owners;
 DROP TABLE Rooms;
 DROP TABLE Locations;
 DROP TABLE Countries;
@@ -80,7 +80,7 @@ CREATE TABLE Hotels
     number_of_stars NUMBER       NOT NULL CHECK ( number_of_stars > 0 ),
     CONSTRAINT Hotels_PK PRIMARY KEY (hotel_id),
     CONSTRAINT Hotels_FK1 FOREIGN KEY (hotel_id) REFERENCES Reservations (hotel_id),
-    CONSTRAINT Hotels_FK2 FOREIGN KEY (manager_id) REFERENCES Managers (manager_id)
+    CONSTRAINT Hotels_FK2 FOREIGN KEY (manager_id) REFERENCES Owners (manager_id)
 );
 
 INSERT INTO Hotels
@@ -134,7 +134,7 @@ VALUES (51, 'Latvia', 'LV', 'Latvian', 'Europe', '+371'),
        (56, 'Colombia', 'CO', 'Spanish', 'South America', '+57'),
        (57, 'Norway', 'NO', 'Norwegian', 'Europe', '+47');
 
-CREATE TABLE Managers
+CREATE TABLE Owners
 (
     manager_id    NUMBER,
     first_name    VARCHAR2(30) NOT NULL,
@@ -145,7 +145,7 @@ CREATE TABLE Managers
     CONSTRAINT Managers_FK1 FOREIGN KEY (manager_id) REFERENCES Hotels (manager_id)
 );
 
-INSERT INTO Managers
+INSERT INTO Owners
 VALUES (11, 'Oskar', 'Eriksen', 216155536, '1965-04-23'),
        (12, 'Jan', 'Kowalski', 575486253, '1968-12-05'),
        (13, 'Marius', 'Geisler', 245631587, '1990-07-03'),
