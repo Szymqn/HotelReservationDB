@@ -75,13 +75,13 @@ CREATE TABLE Hotels
 (
     hotel_id        NUMBER,
     hotel_name      VARCHAR2(40) NOT NULL,
-    manager_id      NUMBER       NOT NULL,
+    owner_id      NUMBER       NOT NULL,
     location_id     NUMBER       NOT NULL,
     room_id         NUMBER       NOT NULL,
     number_of_stars NUMBER       NOT NULL CHECK ( number_of_stars > 0 ),
     CONSTRAINT Hotels_PK PRIMARY KEY (hotel_id),
     CONSTRAINT Hotels_FK1 FOREIGN KEY (hotel_id) REFERENCES Reservations (hotel_id),
-    CONSTRAINT Hotels_FK2 FOREIGN KEY (manager_id) REFERENCES Owners (manager_id),
+    CONSTRAINT Hotels_FK2 FOREIGN KEY (owner_id) REFERENCES Owners (owner_id),
     CONSTRAINT Hotels_FK3 FOREIGN KEY (room_id) REFERENCES Rooms (room_id)
 );
 
@@ -138,13 +138,13 @@ VALUES (51, 'Latvia', 'LV', 'Latvian', 'Europe', '+371'),
 
 CREATE TABLE Owners
 (
-    manager_id    NUMBER,
+    owner_id    NUMBER,
     first_name    VARCHAR2(30) NOT NULL,
     last_name     VARCHAR2(30) NOT NULL,
     phone_num     NUMBER       NOT NULL CHECK ( phone_num > 0 ),
     date_of_birth DATE         NOT NULL,
-    CONSTRAINT Managers_PK PRIMARY KEY (manager_id),
-    CONSTRAINT Managers_FK1 FOREIGN KEY (manager_id) REFERENCES Hotels (manager_id)
+    CONSTRAINT Managers_PK PRIMARY KEY (owner_id),
+    CONSTRAINT Managers_FK1 FOREIGN KEY (owner_id) REFERENCES Hotels (owner_id)
 );
 
 INSERT INTO Owners
