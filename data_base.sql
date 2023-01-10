@@ -13,6 +13,7 @@ CREATE TABLE Reservations
     reservation_id NUMBER,
     hotel_id       NUMBER       NOT NULL,
     guest_id       NUMBER       NOT NULL UNIQUE,
+    date_id        NUMBER       NOT NULL UNIQUE,
     device_sys     VARCHAR2(30),
     location       VARCHAR2(30),
     user_name      VARCHAR2(30) NOT NULL UNIQUE,
@@ -20,13 +21,13 @@ CREATE TABLE Reservations
 );
 
 INSERT INTO Reservations
-VALUES (321, 22, 135, 'android', 'Poland', 'Kowal123'),
-       (322, 23, 136, 'android', 'Germany', 'Zbychu321'),
-       (323, 24, 137, 'MacOS', 'Lithuania', 'MaciekPL'),
-       (324, 25, 138, 'Windows', 'Russia', 'JanuszK'),
-       (325, 26, 139, 'IOS', 'Germany', 'Zbigi'),
-       (326, 24, 140, 'Windows', 'United Kingdom', 'Kamilo'),
-       (327, 26, 141, 'IOS', 'Poland', 'Przemo');
+VALUES (321, 22, 135, 11, 'android', 'Poland', 'Kowal123'),
+       (322, 23, 136, 12, 'android', 'Germany', 'Zbychu321'),
+       (323, 24, 137, 13, 'MacOS', 'Lithuania', 'MaciekPL'),
+       (324, 25, 138, 14, 'Windows', 'Russia', 'JanuszK'),
+       (325, 26, 139, 15, 'IOS', 'Germany', 'Zbigi'),
+       (326, 24, 140, 16, 'Windows', 'United Kingdom', 'Kamilo'),
+       (327, 26, 141, 17, 'IOS', 'Poland', 'Przemo');
 
 
 CREATE TABLE Guests
@@ -58,7 +59,7 @@ CREATE TABLE Dates
     time_zone VARCHAR2(30) NOT NULL,
     CHECK (check_in < checkout),
     CONSTRAINT Dates_PK PRIMARY KEY (date_id),
-    CONSTRAINT Dates_FK1 FOREIGN KEY (date_id) REFERENCES Guests (date_id)
+    CONSTRAINT Dates_FK1 FOREIGN KEY (date_id) REFERENCES Reservations (date_id)
 );
 
 INSERT INTO Dates
@@ -80,7 +81,8 @@ CREATE TABLE Hotels
     number_of_stars NUMBER       NOT NULL CHECK ( number_of_stars > 0 ),
     CONSTRAINT Hotels_PK PRIMARY KEY (hotel_id),
     CONSTRAINT Hotels_FK1 FOREIGN KEY (hotel_id) REFERENCES Reservations (hotel_id),
-    CONSTRAINT Hotels_FK2 FOREIGN KEY (manager_id) REFERENCES Owners (manager_id)
+    CONSTRAINT Hotels_FK2 FOREIGN KEY (manager_id) REFERENCES Owners (manager_id),
+    CONSTRAINT Hotels_FK3 FOREIGN KEY (room_id) REFERENCES Rooms (room_id)
 );
 
 INSERT INTO Hotels
@@ -161,8 +163,7 @@ CREATE TABLE Rooms
     standard VARCHAR2(30) DEFAULT NULL,
     size     NUMBER NOT NULL CHECK ( size > 0 ),
     price    NUMBER NOT NULL CHECK ( price > 0 ),
-    CONSTRAINT Rooms_PK PRIMARY KEY (room_id),
-    CONSTRAINT Rooms_FK1 FOREIGN KEY (room_id) REFERENCES Hotels (room_id)
+    CONSTRAINT Rooms_PK PRIMARY KEY (room_id)
 );
 
 INSERT INTO Rooms
