@@ -5,7 +5,6 @@ DROP TABLE Dates;
 DROP TABLE Hotels;
 DROP TABLE Managers;
 DROP TABLE Rooms;
-DROP TABLE Hotels_Locations;
 DROP TABLE Locations;
 DROP TABLE Countries;
 
@@ -80,7 +79,8 @@ CREATE TABLE Hotels
     room_id         NUMBER       NOT NULL,
     number_of_stars NUMBER       NOT NULL CHECK ( number_of_stars > 0 ),
     CONSTRAINT Hotels_PK PRIMARY KEY (hotel_id),
-    CONSTRAINT Hotels_FK1 FOREIGN KEY (hotel_id) REFERENCES Reservations (hotel_id)
+    CONSTRAINT Hotels_FK1 FOREIGN KEY (hotel_id) REFERENCES Reservations (hotel_id),
+    CONSTRAINT Hotels_FK2 FOREIGN KEY (manager_id) REFERENCES Managers (manager_id)
 );
 
 INSERT INTO Hotels
@@ -92,25 +92,6 @@ VALUES (21, 'Radisson Blu Daugava', 11, 41, 201, 4),
        (26, 'ibis Bogota Museo', 16, 46, 206, 3),
        (27, 'Radisson Blu Park Hotel', 17, 47, 207, 4);
 
-CREATE TABLE Hotels_Locations
-(
-    id          NUMBER,
-    hotel_id    NUMBER NOT NULL UNIQUE,
-    location_id NUMBER NOT NULL UNIQUE,
-    CONSTRAINT Hotels_Locations_PK PRIMARY KEY (id),
-    CONSTRAINT Hotels_Locations_FK1 FOREIGN KEY (hotel_id) REFERENCES Hotels (hotel_id) ON DELETE CASCADE,
-    CONSTRAINT Hotels_Locations_FK2 FOREIGN KEY (location_id) REFERENCES Locations (location_id) ON DELETE CASCADE
-);
-
-INSERT INTO Hotels_Locations
-VALUES (1, 21, 41),
-       (2, 22, 42),
-       (3, 23, 43),
-       (4, 24, 44),
-       (5, 25, 45),
-       (6, 26, 46),
-       (7, 27, 47);
-
 CREATE TABLE Locations
 (
     location_id NUMBER,
@@ -118,7 +99,8 @@ CREATE TABLE Locations
     city        VARCHAR2(30) NOT NULL,
     zip_code    VARCHAR(15)  NOT NULL,
     country_id  NUMBER       NOT NULL,
-    CONSTRAINT Locations_PK PRIMARY KEY (location_id)
+    CONSTRAINT Locations_PK PRIMARY KEY (location_id),
+    CONSTRAINT Locations_FK1 FOREIGN KEY (location_id) REFERENCES Hotels(location_id)
 );
 
 INSERT INTO Locations
