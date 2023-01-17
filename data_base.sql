@@ -7,11 +7,11 @@ DROP TABLE Owners;
 DROP TABLE Rooms;
 DROP TABLE Locations;
 DROP TABLE Countries;
+DROP TABLE Hotels_Owners;
 
 CREATE TABLE Reservations
 (
     reservation_id NUMBER,
-    hotel_id       NUMBER       NOT NULL,
     guest_id       NUMBER       NOT NULL UNIQUE,
     date_id        NUMBER       NOT NULL UNIQUE,
     room_id        NUMBER       NOT NULL UNIQUE,
@@ -21,18 +21,17 @@ CREATE TABLE Reservations
     CONSTRAINT Reservations_PK PRIMARY KEY (reservation_id),
     CONSTRAINT Reservations_FK_1 FOREIGN KEY (guest_id) REFERENCES Guests (guest_id),
     CONSTRAINT Reservations_FK_2 FOREIGN KEY (date_id) REFERENCES Dates (date_id),
-    CONSTRAINT Reservations_FK_3 FOREIGN KEY (hotel_id) REFERENCES Hotels (hotel_id),
-    CONSTRAINT Reservations_FK_4 FOREIGN KEY (hotel_id) REFERENCES Rooms (room_id)
+    CONSTRAINT Reservations_FK_4 FOREIGN KEY (room_id) REFERENCES Rooms (room_id)
 );
 
 INSERT INTO Reservations
-VALUES (321, 22, 135, 11, 201, 'android', 'Poland', 'Kowal123'),
-       (322, 23, 136, 12, 202, 'android', 'Germany', 'Zbychu321'),
-       (323, 24, 137, 13, 203, 'MacOS', 'Lithuania', 'MaciekPL'),
-       (324, 25, 138, 14, 204, 'Windows', 'Russia', 'JanuszK'),
-       (325, 26, 139, 15, 205, 'IOS', 'Germany', 'Zbigi'),
-       (326, 24, 140, 16, 206, 'Windows', 'United Kingdom', 'Kamilo'),
-       (327, 26, 141, 17, 207, 'IOS', 'Poland', 'Przemo');
+VALUES (321, 135, 11, 201, 'android', 'Poland', 'Kowal123'),
+       (322, 136, 12, 202, 'android', 'Germany', 'Zbychu321'),
+       (323, 137, 13, 203, 'MacOS', 'Lithuania', 'MaciekPL'),
+       (324, 138, 14, 204, 'Windows', 'Russia', 'JanuszK'),
+       (325, 139, 15, 205, 'IOS', 'Germany', 'Zbigi'),
+       (326, 140, 16, 206, 'Windows', 'United Kingdom', 'Kamilo'),
+       (327, 141, 17, 207, 'IOS', 'Poland', 'Przemo');
 
 
 CREATE TABLE Guests
@@ -79,22 +78,30 @@ CREATE TABLE Hotels
     hotel_name      VARCHAR2(40) NOT NULL,
     owner_id      NUMBER       NOT NULL,
     location_id     NUMBER       NOT NULL,
-    room_id         NUMBER       NOT NULL,
     number_of_stars NUMBER       NOT NULL CHECK ( number_of_stars > 0 ),
     CONSTRAINT Hotels_PK PRIMARY KEY (hotel_id),
-    CONSTRAINT Hotels_FK2 FOREIGN KEY (owner_id) REFERENCES Owners (owner_id),
-    CONSTRAINT Hotels_FK3 FOREIGN KEY (room_id) REFERENCES Rooms (room_id),
-    CONSTRAINT Hotels_FK4 FOREIGN KEY (location_id) REFERENCES Locations(location_id)
+    CONSTRAINT Hotels_FK1 FOREIGN KEY (location_id) REFERENCES Locations(location_id)
 );
 
 INSERT INTO Hotels
-VALUES (21, 'Radisson Blu Daugava', 11, 41, 201, 4),
-       (22, 'Hilton on Park Lane', 12, 42, 202, 5),
-       (23, 'Cavalier Hotel Prague', 13, 43, 203, 3),
-       (24, 'Grand Hyatt Kuwait', 14, 44, 204, 5),
-       (25, 'InterContinental Los Angeles', 12, 45, 205, 4),
-       (26, 'ibis Bogota Museo', 16, 46, 206, 3),
-       (27, 'Radisson Blu Park Hotel', 17, 47, 207, 4);
+VALUES (21, 'Radisson Blu Daugava', 11, 41, 4),
+       (22, 'Hilton on Park Lane', 12, 42, 5),
+       (23, 'Cavalier Hotel Prague', 13, 43, 3),
+       (24, 'Grand Hyatt Kuwait', 14, 44, 5),
+       (25, 'InterContinental Los Angeles', 12, 45, 4),
+       (26, 'ibis Bogota Museo', 16, 46, 3),
+       (27, 'Radisson Blu Park Hotel', 17, 47, 4);
+
+CREATE TABLE Hotels_Owners
+(
+    id NUMBER,
+    hotel_id    NUMBER,
+    owner_id    NUMBER,
+    CONSTRAINT Hotel_Owners_PK PRIMARY KEY (id),
+    CONSTRAINT Hotel_Owners_FK1 FOREIGN KEY (owner_id) REFERENCES Owners(owner_id),
+    CONSTRAINT Hotels_Owners_FK2 FOREIGN KEY (hotel_id) REFERENCES Hotels(hotel_id)
+);
+
 
 CREATE TABLE Locations
 (
@@ -144,8 +151,7 @@ CREATE TABLE Owners
     last_name     VARCHAR2(30) NOT NULL,
     phone_num     NUMBER       NOT NULL CHECK ( phone_num > 0 ),
     date_of_birth DATE         NOT NULL,
-    CONSTRAINT Managers_PK PRIMARY KEY (owner_id),
-    CONSTRAINT Managers_FK1 FOREIGN KEY (owner_id) REFERENCES Hotels (owner_id)
+    CONSTRAINT Owners_PK PRIMARY KEY (owner_id)
 );
 
 INSERT INTO Owners
@@ -160,18 +166,20 @@ VALUES (11, 'Oskar', 'Eriksen', 216155536, '1965-04-23'),
 CREATE TABLE Rooms
 (
     room_id  NUMBER,
+    hotel_id NUMBER,
     floor    NUMBER NOT NULL,
     standard VARCHAR2(30) DEFAULT NULL,
     size     NUMBER NOT NULL CHECK ( size > 0 ),
     price    NUMBER NOT NULL CHECK ( price > 0 ),
-    CONSTRAINT Rooms_PK PRIMARY KEY (room_id)
+    CONSTRAINT Rooms_PK PRIMARY KEY (room_id),
+    CONSTRAINT Rooms_FK1 FOREIGN KEY (room_id) REFERENCES Hotels (hotel_id)
 );
 
 INSERT INTO Rooms
-VALUES (201, 20, 'premium', 85, 4850),
-       (202, 12, 'premium', 60, 3740),
-       (203, 8, 'casual', 30, 500),
-       (204, 10, 'casual', 33, 850),
-       (205, 5, 'casual', 28, 450),
-       (206, 13, 'premium', 38, 2950),
-       (207, 15, 'premium', 85, 4550);
+VALUES (201, 21,  20, 'premium', 85, 4850),
+       (202, 22, 12, 'premium', 60, 3740),
+       (203, 23, 8, 'casual', 30, 500),
+       (204, 24, 10, 'casual', 33, 850),
+       (205, 25, 5, 'casual', 28, 450),
+       (206, 26, 13, 'premium', 38, 2950),
+       (207, 27, 15, 'premium', 85, 4550);
