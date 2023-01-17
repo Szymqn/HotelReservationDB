@@ -14,42 +14,45 @@ CREATE TABLE Reservations
     hotel_id       NUMBER       NOT NULL,
     guest_id       NUMBER       NOT NULL UNIQUE,
     date_id        NUMBER       NOT NULL UNIQUE,
+    room_id        NUMBER       NOT NULL UNIQUE,
     device_sys     VARCHAR2(30),
     location       VARCHAR2(30),
     user_name      VARCHAR2(30) NOT NULL UNIQUE,
-    CONSTRAINT Reservations_PK PRIMARY KEY (reservation_id)
+    CONSTRAINT Reservations_PK PRIMARY KEY (reservation_id),
+    CONSTRAINT Reservations_FK_1 FOREIGN KEY (guest_id) REFERENCES Guests (guest_id),
+    CONSTRAINT Reservations_FK_2 FOREIGN KEY (date_id) REFERENCES Dates (date_id),
+    CONSTRAINT Reservations_FK_3 FOREIGN KEY (hotel_id) REFERENCES Hotels (hotel_id),
+    CONSTRAINT Reservations_FK_4 FOREIGN KEY (hotel_id) REFERENCES Rooms (room_id)
 );
 
 INSERT INTO Reservations
-VALUES (321, 22, 135, 11, 'android', 'Poland', 'Kowal123'),
-       (322, 23, 136, 12, 'android', 'Germany', 'Zbychu321'),
-       (323, 24, 137, 13, 'MacOS', 'Lithuania', 'MaciekPL'),
-       (324, 25, 138, 14, 'Windows', 'Russia', 'JanuszK'),
-       (325, 26, 139, 15, 'IOS', 'Germany', 'Zbigi'),
-       (326, 24, 140, 16, 'Windows', 'United Kingdom', 'Kamilo'),
-       (327, 26, 141, 17, 'IOS', 'Poland', 'Przemo');
+VALUES (321, 22, 135, 11, 201, 'android', 'Poland', 'Kowal123'),
+       (322, 23, 136, 12, 202, 'android', 'Germany', 'Zbychu321'),
+       (323, 24, 137, 13, 203, 'MacOS', 'Lithuania', 'MaciekPL'),
+       (324, 25, 138, 14, 204, 'Windows', 'Russia', 'JanuszK'),
+       (325, 26, 139, 15, 205, 'IOS', 'Germany', 'Zbigi'),
+       (326, 24, 140, 16, 206, 'Windows', 'United Kingdom', 'Kamilo'),
+       (327, 26, 141, 17, 207, 'IOS', 'Poland', 'Przemo');
 
 
 CREATE TABLE Guests
 (
     guest_id    NUMBER,
-    date_id     NUMBER       NOT NULL UNIQUE,
     first_name  VARCHAR2(30) NOT NULL,
     middle_name VARCHAR2(30) DEFAULT NULL,
     last_name   VARCHAR2(30) NOT NULL,
     email       VARCHAR2(30) NOT NULL UNIQUE,
-    CONSTRAINT Guests_PK PRIMARY KEY (guest_id),
-    CONSTRAINT Guests_FK1 FOREIGN KEY (guest_id) REFERENCES Reservations (guest_id)
+    CONSTRAINT Guests_PK PRIMARY KEY (guest_id)
 );
 
 INSERT INTO Guests
-VALUES (135, 235, 'Jan', 'Adam', 'Kowalski', 'akowal@gmail.com'),
-       (136, 236, 'Zbigniew', null, 'Jankowski', 'zjankow@gmail.com'),
-       (137, 237, 'Maciej', null, 'Kowalewski', 'mkowalew@gmail.com'),
-       (138, 238, 'Janusz', 'Piotr', 'Krak', 'jkraw@gmail.com'),
-       (139, 239, 'Zbigniew', 'Adam', 'Kowalski', 'zkowals@gmail.com'),
-       (140, 240, 'Kamil', null, 'Wisniewski', 'kwisn@gmail.com'),
-       (141, 241, 'Przemysław', null, 'Zasada', 'przemoz@gmail.com');
+VALUES (135, 'Jan', 'Adam', 'Kowalski', 'akowal@gmail.com'),
+       (136, 'Zbigniew', null, 'Jankowski', 'zjankow@gmail.com'),
+       (137, 'Maciej', null, 'Kowalewski', 'mkowalew@gmail.com'),
+       (138, 'Janusz', 'Piotr', 'Krak', 'jkraw@gmail.com'),
+       (139, 'Zbigniew', 'Adam', 'Kowalski', 'zkowals@gmail.com'),
+       (140, 'Kamil', null, 'Wisniewski', 'kwisn@gmail.com'),
+       (141, 'Przemysław', null, 'Zasada', 'przemoz@gmail.com');
 
 CREATE TABLE Dates
 (
@@ -58,8 +61,7 @@ CREATE TABLE Dates
     checkout  DATE         NOT NULL,
     time_zone VARCHAR2(30) NOT NULL,
     CHECK (check_in < checkout),
-    CONSTRAINT Dates_PK PRIMARY KEY (date_id),
-    CONSTRAINT Dates_FK1 FOREIGN KEY (date_id) REFERENCES Reservations (date_id)
+    CONSTRAINT Dates_PK PRIMARY KEY (date_id)
 );
 
 INSERT INTO Dates
@@ -80,9 +82,9 @@ CREATE TABLE Hotels
     room_id         NUMBER       NOT NULL,
     number_of_stars NUMBER       NOT NULL CHECK ( number_of_stars > 0 ),
     CONSTRAINT Hotels_PK PRIMARY KEY (hotel_id),
-    CONSTRAINT Hotels_FK1 FOREIGN KEY (hotel_id) REFERENCES Reservations (hotel_id),
     CONSTRAINT Hotels_FK2 FOREIGN KEY (owner_id) REFERENCES Owners (owner_id),
-    CONSTRAINT Hotels_FK3 FOREIGN KEY (room_id) REFERENCES Rooms (room_id)
+    CONSTRAINT Hotels_FK3 FOREIGN KEY (room_id) REFERENCES Rooms (room_id),
+    CONSTRAINT Hotels_FK4 FOREIGN KEY (location_id) REFERENCES Locations(location_id)
 );
 
 INSERT INTO Hotels
@@ -102,7 +104,7 @@ CREATE TABLE Locations
     zip_code    VARCHAR(15)  NOT NULL,
     country_id  NUMBER       NOT NULL,
     CONSTRAINT Locations_PK PRIMARY KEY (location_id),
-    CONSTRAINT Locations_FK1 FOREIGN KEY (location_id) REFERENCES Hotels(location_id)
+    CONSTRAINT Locations_FK_1 FOREIGN KEY (country_id) REFERENCES Countries (country_id)
 );
 
 INSERT INTO Locations
@@ -123,8 +125,7 @@ CREATE TABLE Countries
     continent  VARCHAR2(30) NOT NULL,
     dial_code  VARCHAR2(15) NOT NULL,
     CHECK ( LENGTH(name) > LENGTH(s_name) ),
-    CONSTRAINT Countries_PK PRIMARY KEY (country_id),
-    CONSTRAINT Countries_FK1 FOREIGN KEY (country_id) REFERENCES Locations (country_id)
+    CONSTRAINT Countries_PK PRIMARY KEY (country_id)
 );
 
 INSERT INTO Countries
