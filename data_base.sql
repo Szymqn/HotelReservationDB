@@ -76,11 +76,11 @@ CREATE TABLE Hotels
 (
     hotel_id        NUMBER,
     hotel_name      VARCHAR2(40) NOT NULL,
-    owner_id      NUMBER       NOT NULL,
+    owner_id        NUMBER       NOT NULL,
     location_id     NUMBER       NOT NULL,
     number_of_stars NUMBER       NOT NULL CHECK ( number_of_stars > 0 ),
     CONSTRAINT Hotels_PK PRIMARY KEY (hotel_id),
-    CONSTRAINT Hotels_FK1 FOREIGN KEY (location_id) REFERENCES Locations(location_id)
+    CONSTRAINT Hotels_FK1 FOREIGN KEY (location_id) REFERENCES Locations (location_id)
 );
 
 INSERT INTO Hotels
@@ -94,12 +94,12 @@ VALUES (21, 'Radisson Blu Daugava', 11, 41, 4),
 
 CREATE TABLE Hotels_Owners
 (
-    id NUMBER,
-    hotel_id    NUMBER,
-    owner_id    NUMBER,
+    id       NUMBER,
+    hotel_id NUMBER NOT NULL UNIQUE,
+    owner_id NUMBER NOT NULL UNIQUE,
     CONSTRAINT Hotel_Owners_PK PRIMARY KEY (id),
-    CONSTRAINT Hotel_Owners_FK1 FOREIGN KEY (owner_id) REFERENCES Owners(owner_id),
-    CONSTRAINT Hotels_Owners_FK2 FOREIGN KEY (hotel_id) REFERENCES Hotels(hotel_id)
+    CONSTRAINT Hotel_Owners_FK1 FOREIGN KEY (owner_id) REFERENCES Owners (owner_id),
+    CONSTRAINT Hotels_Owners_FK2 FOREIGN KEY (hotel_id) REFERENCES Hotels (hotel_id)
 );
 
 
@@ -146,7 +146,7 @@ VALUES (51, 'Latvia', 'LV', 'Latvian', 'Europe', '+371'),
 
 CREATE TABLE Owners
 (
-    owner_id    NUMBER,
+    owner_id      NUMBER,
     first_name    VARCHAR2(30) NOT NULL,
     last_name     VARCHAR2(30) NOT NULL,
     phone_num     NUMBER       NOT NULL CHECK ( phone_num > 0 ),
@@ -176,7 +176,7 @@ CREATE TABLE Rooms
 );
 
 INSERT INTO Rooms
-VALUES (201, 21,  20, 'premium', 85, 4850),
+VALUES (201, 21, 20, 'premium', 85, 4850),
        (202, 22, 12, 'premium', 60, 3740),
        (203, 23, 8, 'casual', 30, 500),
        (204, 24, 10, 'casual', 33, 850),
