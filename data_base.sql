@@ -27,11 +27,11 @@ CREATE TABLE Reservations
 INSERT INTO Reservations
 VALUES (321, 135, 11, 201, 'android', 'Poland', 'Kowal123'),
        (322, 136, 12, 202, 'android', 'Germany', 'Zbychu321'),
-       (323, 137, 13, 203, 'MacOS', 'Lithuania', 'MaciekPL'),
+       (323, 137, 13, 203, 'MacOS', 'Poland', 'MaciekPL'),
        (324, 138, 14, 204, 'Windows', 'Russia', 'JanuszK'),
        (325, 139, 15, 205, 'IOS', 'Germany', 'Zbigi'),
        (326, 140, 16, 206, 'Windows', 'United Kingdom', 'Kamilo'),
-       (327, 141, 17, 207, 'IOS', 'Poland', 'Przemo');
+       (327, 141, 17, 207, 'IOS', 'Lithuania', 'Przemo');
 
 
 CREATE TABLE Guests
