@@ -108,5 +108,6 @@ The Hotels_Owners table holds information about the relationship between hotels 
 
 Columns:
 
-    hotel_id: The identifier for the hotel
-    owner_id: The identifier for the owner
+    id (number): A unique identifier for each relationship
+    hotel_id (number): The identifier for the hotel
+    owner_id (number): The identifier for the owner
