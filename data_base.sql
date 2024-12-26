@@ -107,7 +107,8 @@ CREATE TABLE Locations
     country_s_name  VARCHAR2(3)  NOT NULL,
     language        VARCHAR2(30) NOT NULL,
     continent       VARCHAR2(30) NOT NULL,
-    dial_code       VARCHAR2(15) NOT NULL
+    dial_code       VARCHAR2(15) NOT NULL,
+    CONSTRAINT Locations_PK PRIMARY KEY (location_id)
 );
 
 INSERT INTO Locations
