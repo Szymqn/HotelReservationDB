@@ -1,5 +1,6 @@
 -- refresh
 DROP TABLE Reservations;
+DROP TABLE Reservations_Log;
 DROP TABLE Guests;
 DROP TABLE Hotels;
 DROP TABLE Owners;
@@ -25,6 +26,23 @@ CREATE TABLE Reservations
     CONSTRAINT Reservations_FK_4 FOREIGN KEY (room_id) REFERENCES Rooms (room_id)
 );
 
+CREATE TABLE Reservations_Log
+(
+    log_id          INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_name       VARCHAR2(30) NOT NULL,
+    timestamp       VARCHAR2(30) NOT NULL,
+    action          VARCHAR2(30) NOT NULL,
+    reservation_id  NUMBER NOT NULL,
+    guest_id        NUMBER NOT NULL,
+    room_id         NUMBER NOT NULL,
+    device_sys      VARCHAR2(30),
+    country_name    VARCHAR2(30),
+    country_s_name  VARCHAR2(3),
+    check_in        DATE NOT NULL,
+    checkout        DATE NOT NULL,
+    time_zone       VARCHAR2(30) NOT NULL
+);
+
 INSERT INTO Reservations
 VALUES (321, 135, 201, 'android', 'Poland', 'pl', 'Kowal123', '2023-01-12', '2023-01-20', 'UTC+2'),
        (322, 136, 202, 'android', 'Germany', 'de', 'Zbychu321', '2023-01-22', '2023-02-01', 'UTC'),
@@ -33,6 +51,27 @@ VALUES (321, 135, 201, 'android', 'Poland', 'pl', 'Kowal123', '2023-01-12', '202
        (325, 139, 205, 'IOS', 'Germany', 'de', 'Zbigi', '2023-03-15', '2023-04-03', 'UTC-8'),
        (326, 140, 206, 'Windows', 'United Kingdom', 'uk', 'Kamilo', '2023-01-12', '2023-01-20', 'UTC-5'),
        (327, 141, 207, 'IOS', 'Lithuania', 'lt', 'Przemo', '2023-01-12', '2023-01-20', 'UTC+1');
+
+CREATE TRIGGER reservations_logs_delete
+    AFTER DELETE ON Reservations
+    FOR EACH ROW
+BEGIN
+    INSERT INTO Reservations_Log (user_name, timestamp, action, reservation_id, guest_id, room_id, device_sys, country_name, country_s_name, check_in, checkout, time_zone)
+    VALUES ('system_user', CURRENT_TIMESTAMP, 'delete', OLD.reservation_id, OLD.guest_id, OLD.room_id, OLD.device_sys, OLD.country_name, OLD.country_s_name, OLD.check_in, OLD.checkout, OLD.time_zone);
+END;
+
+CREATE TRIGGER reservations_logs_insert
+    AFTER INSERT ON Reservations
+    FOR EACH ROW
+BEGIN
+    INSERT INTO Reservations_Log (user_name, timestamp, action, reservation_id, guest_id, room_id, device_sys, country_name, country_s_name, check_in, checkout, time_zone)
+    VALUES ('system_user', CURRENT_TIMESTAMP, 'insert', NEW.reservation_id, NEW.guest_id, NEW.room_id, NEW.device_sys, NEW.country_name, NEW.country_s_name, NEW.check_in, NEW.checkout, NEW.time_zone);
+END;
+
+DELETE FROM Reservations WHERE reservation_id = 322;
+INSERT INTO Reservations VALUES (328, 142, 208, 'android', 'Poland', 'pl', 'Kowal1236', '2023-01-12', '2023-01-20', 'UTC+2');
+
+SELECT * FROM Reservations_Log;
 
 CREATE TABLE Guests
 (
