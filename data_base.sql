@@ -56,16 +56,20 @@ CREATE TRIGGER reservations_logs_delete
     AFTER DELETE ON Reservations
     FOR EACH ROW
 BEGIN
-    INSERT INTO Reservations_Log (user_name, timestamp, action, reservation_id, guest_id, room_id, device_sys, country_name, country_s_name, check_in, checkout, time_zone)
-    VALUES ('system_user', CURRENT_TIMESTAMP, 'delete', OLD.reservation_id, OLD.guest_id, OLD.room_id, OLD.device_sys, OLD.country_name, OLD.country_s_name, OLD.check_in, OLD.checkout, OLD.time_zone);
+    INSERT INTO Reservations_Log (user_name, timestamp, action, reservation_id, guest_id, room_id,
+                                  device_sys, country_name, country_s_name, check_in, checkout, time_zone)
+    VALUES ('system_user', CURRENT_TIMESTAMP, 'delete', OLD.reservation_id, OLD.guest_id, OLD.room_id,
+            OLD.device_sys, OLD.country_name, OLD.country_s_name, OLD.check_in, OLD.checkout, OLD.time_zone);
 END;
 
 CREATE TRIGGER reservations_logs_insert
     AFTER INSERT ON Reservations
     FOR EACH ROW
 BEGIN
-    INSERT INTO Reservations_Log (user_name, timestamp, action, reservation_id, guest_id, room_id, device_sys, country_name, country_s_name, check_in, checkout, time_zone)
-    VALUES ('system_user', CURRENT_TIMESTAMP, 'insert', NEW.reservation_id, NEW.guest_id, NEW.room_id, NEW.device_sys, NEW.country_name, NEW.country_s_name, NEW.check_in, NEW.checkout, NEW.time_zone);
+    INSERT INTO Reservations_Log (user_name, timestamp, action, reservation_id, guest_id, room_id,
+                                  device_sys, country_name, country_s_name, check_in, checkout, time_zone)
+    VALUES ('system_user', CURRENT_TIMESTAMP, 'insert', NEW.reservation_id, NEW.guest_id, NEW.room_id,
+            NEW.device_sys, NEW.country_name, NEW.country_s_name, NEW.check_in, NEW.checkout, NEW.time_zone);
 END;
 
 DELETE FROM Reservations WHERE reservation_id = 322;
