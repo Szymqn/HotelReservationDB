@@ -77,6 +77,33 @@ INSERT INTO Reservations VALUES (328, 142, 208, 'android', 'Poland', 'pl', 'Kowa
 
 SELECT * FROM Reservations_Log;
 
+CREATE OR REPLACE PACKAGE reservation_pkg AS
+    PROCEDURE insert_reservation (p_guest_id IN NUMBER, p_room_id IN NUMBER, p_device_sys IN VARCHAR2,
+                                 p_country_name IN VARCHAR2, p_country_s_name IN VARCHAR2, p_user_name IN VARCHAR2,
+                                 p_check_in IN DATE, p_checkout IN DATE, p_time_zone IN VARCHAR2);
+    PROCEDURE delete_reservation (p_reservation_id IN NUMBER);
+END reservation_pkg;
+
+CREATE OR REPLACE PACKAGE BODY reservation_pkg AS
+    PROCEDURE insert_reservation (p_guest_id IN NUMBER, p_room_id IN NUMBER, p_device_sys IN VARCHAR2,
+                                 p_country_name IN VARCHAR2, p_country_s_name IN VARCHAR2, p_user_name IN VARCHAR2,
+                                 p_check_in IN DATE, p_checkout IN DATE, p_time_zone IN VARCHAR2)
+    IS
+    BEGIN
+        INSERT INTO Reservations (reservation_id, guest_id, room_id, device_sys, country_name, country_s_name, user_name,
+                                  check_in, checkout, time_zone)
+        VALUES (NULL, p_guest_id, p_room_id, p_device_sys, p_country_name, p_country_s_name, p_user_name,
+                p_check_in, p_checkout, p_time_zone);
+    END insert_reservation;
+
+    PROCEDURE delete_reservation (p_reservation_id IN NUMBER)
+    IS
+    BEGIN
+        DELETE FROM Reservations WHERE reservation_id = p_reservation_id;
+    END delete_reservation;
+END reservation_pkg;
+
+
 CREATE TABLE Guests
 (
     guest_id    NUMBER          NOT NULL UNIQUE,
