@@ -101,7 +101,7 @@ VALUES (135, 'Jan', 'Adam', 'Kowalski', 'akowal@gmail.com', '+48', 123456789, 25
        (140, 'Kamil', null, 'Wisniewski', 'kwisn@gmail.com', '+44', 548652157, 75, 'M', 'British'),
        (141, 'Przemysław', null, 'Zasada', 'przemoz@gmail.com', '+370', 548652157, 85, 'M', 'Lithuanian');
 
-CREATE OR REPLACE TYPE HotelLang AS TABLE OF VARCHAR2(30);
+-- CREATE OR REPLACE TYPE HotelLang AS TABLE OF VARCHAR2(30);
 
 CREATE TABLE Hotels
 (
@@ -115,24 +115,34 @@ CREATE TABLE Hotels
     restaurant      BOOLEAN      DEFAULT FALSE,
     bar             BOOLEAN      DEFAULT FALSE,
     wifi            BOOLEAN      DEFAULT FALSE,
-    hotel_lang      HotelLang,
+--     hotel_lang      HotelLang,
     CHECK ( number_of_stars > 0 ),
     CHECK ( rating > 0 ),
     CONSTRAINT Hotels_PK PRIMARY KEY (hotel_id),
     CONSTRAINT Hotels_FK1 FOREIGN KEY (location_id) REFERENCES Locations (location_id)
-)
-NESTED TABLE hotel_lang STORE AS hotel_lang_tab;
+);
+-- NESTED TABLE hotel_lang STORE AS hotel_lang_tab;
 
 INSERT INTO Hotels
-VALUES (21, 'Radisson Blu Daugava', 11, 41, 4, 6, TRUE, TRUE, TRUE, TRUE, HotelLang('English', 'Latvian')),
-       (22, 'Hilton on Park Lane', 12, 42, 5, 7, TRUE, TRUE, TRUE, TRUE, HotelLang('English')),
-       (23, 'Cavalier Hotel Prague', 13, 43, 3, 5, TRUE, TRUE, TRUE, TRUE, HotelLang('English','Czech')),
-       (24, 'Grand Hyatt Kuwait', 14, 44, 5, 7, TRUE, TRUE, TRUE, TRUE, HotelLang('English', 'Arabic')),
-       (25, 'InterContinental Los Angeles', 12, 45, 4, 6, TRUE, TRUE, TRUE, TRUE, HotelLang('English')),
-       (26, 'ibis Bogota Museo', 16, 46, 3, 5, TRUE, TRUE, TRUE, TRUE, HotelLang('English', 'Spanish')),
-       (27, 'Radisson Blu Park Hotel', 17, 47, 4, 6, TRUE, TRUE, TRUE, TRUE, HotelLang('English', 'Norwegian'));
+VALUES (21, 'Radisson Blu Daugava', 11, 41, 4, 6, TRUE, TRUE, TRUE, TRUE),
+       (22, 'Hilton on Park Lane', 12, 42, 5, 7, TRUE, TRUE, TRUE, TRUE),
+       (23, 'Cavalier Hotel Prague', 13, 43, 3, 5, TRUE, TRUE, TRUE, TRUE),
+       (24, 'Grand Hyatt Kuwait', 14, 44, 5, 7, TRUE, TRUE, TRUE, TRUE),
+       (25, 'InterContinental Los Angeles', 12, 45, 4, 6, TRUE, TRUE, TRUE, TRUE),
+       (26, 'ibis Bogota Museo', 16, 46, 3, 5, TRUE, TRUE, TRUE, TRUE),
+       (27, 'Radisson Blu Park Hotel', 17, 47, 4, 6, TRUE, TRUE, TRUE, TRUE);
 
-SELECT * FROM hotel_lang_tab;
+
+-- INSERT INTO Hotels
+-- VALUES (21, 'Radisson Blu Daugava', 11, 41, 4, 6, TRUE, TRUE, TRUE, TRUE, HotelLang('English', 'Latvian')),
+--        (22, 'Hilton on Park Lane', 12, 42, 5, 7, TRUE, TRUE, TRUE, TRUE, HotelLang('English')),
+--        (23, 'Cavalier Hotel Prague', 13, 43, 3, 5, TRUE, TRUE, TRUE, TRUE, HotelLang('English','Czech')),
+--        (24, 'Grand Hyatt Kuwait', 14, 44, 5, 7, TRUE, TRUE, TRUE, TRUE, HotelLang('English', 'Arabic')),
+--        (25, 'InterContinental Los Angeles', 12, 45, 4, 6, TRUE, TRUE, TRUE, TRUE, HotelLang('English')),
+--        (26, 'ibis Bogota Museo', 16, 46, 3, 5, TRUE, TRUE, TRUE, TRUE, HotelLang('English', 'Spanish')),
+--        (27, 'Radisson Blu Park Hotel', 17, 47, 4, 6, TRUE, TRUE, TRUE, TRUE, HotelLang('English', 'Norwegian'));
+
+SELECT * FROM Hotels;
 
 CREATE TABLE Hotels_Owners
 (
